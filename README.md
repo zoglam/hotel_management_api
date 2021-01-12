@@ -40,18 +40,17 @@ docker-compose down
 **Метод для добавления номера отеля.**
 Принимает на вход текстовое описание и цену за ночь. Возвращает ID номера отеля.
 
-```
-Parameters
-```
+
+### Parameters
 
 |Name|Description|
 |----|-----------|
 |discription `*required`|Текстовое описание|
 |price `*required`|Цена за ночь|
 
-```
-Example
-```
+
+### Example
+
 Valid
 ```bash
 curl -X POST -d "discription=test_discription" -d "price=99.99" http://localhost:8080/hotel_room/create
@@ -62,9 +61,7 @@ Invalid
 curl -X POST -d "discription=test_discription" -d "price=99.b99" http://localhost:8080/hotel_room/create
 ```
 
-```
-Response
-```
+### Response
 
 <table>
 <tr><td> Status </td> <td> Response </td></tr>
@@ -111,9 +108,8 @@ Response
 **Метод для удаления номера отеля и всех его броней.**
 Принимает на вход ID номера отеля.
 
-```
-Parameters
-```
+### Parameters
+
 <table>
 <tr><td> <b>Name</b> </td> <td> <b>Description</b> </td></tr>
 <tr>
@@ -125,16 +121,15 @@ ID номера отеля. Передается в адресной строк�
 <tr>
 </table>
 
-```
-Example
-```
+### Example
+
 Valid
 ```
 curl -X DELETE http://localhost:8080/bookings/delete/99
 ```
-```
-Response
-```
+
+### Response
+
 <table>
 <tr><td> Status </td> <td> Response </td></tr>
 <tr>    
@@ -176,9 +171,9 @@ Response
 
 ## `GET` hotel_room/list
 **Метод для получения всех опросов, которые прошел пользователь, с подробным описанием выбранных ответов**
-```
-Parameters
-```
+
+### Parameters
+
 |Name|Description|
 |-|-|
 |id_user|ID пользователя|
