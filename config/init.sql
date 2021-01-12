@@ -22,6 +22,6 @@ CREATE TABLE `booking`(
         ON DELETE CASCADE
 );
 
-insert into `hotel_room`(discription, price) values("lolkek", 12.12);
-insert into `booking`(date_start,date_end,room_id) values("2020.06.10", "2020.07.10", 1);
-insert into `booking`(date_start,date_end,room_id) values("2020.05.10", "2020.10.10", 1);
+-- insert into `hotel_room`(discription, price) values("test_discription", 12.12);
+-- insert into `booking`(date_start,date_end,room_id) values("2020.06.10", "2020.07.10", 1);
+-- insert into `booking`(date_start,date_end,room_id) values("2020.05.10", "2020.10.10", 1);
