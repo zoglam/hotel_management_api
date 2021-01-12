@@ -2,18 +2,15 @@ package controllers
 
 import (
     "encoding/json"
-    "errors"
     "net/http"
-    "strconv"
 
     "github.com/gorilla/mux"
 
     models "github.com/zoglam/hotel_management_api/models"
 )
 
-// CreateBooking ...
-func CreateBooking(w http.ResponseWriter, r *http.Request) {
-
+// CreateHotelRoom creates hotel_room and returns room_id of new row
+func CreateHotelRoom(w http.ResponseWriter, r *http.Request) {
     var err error
     defer func() {
         if err != nil {
@@ -23,24 +20,18 @@ func CreateBooking(w http.ResponseWriter, r *http.Request) {
     }()
 
     r.ParseForm()
-    dateStart := r.PostForm.Get("date_start")
-    dateEnd := r.PostForm.Get("date_end")
-    roomID := r.PostForm.Get("room_id")
+    discription := r.PostForm.Get("discription")
+    price := r.PostForm.Get("price")
 
-    if !IsValidDate(dateStart) || !IsValidDate(dateEnd) {
-        err = errors.New("Invalid format date")
-        return
-    }
-
-    res, err := models.BookingDao.CreateBooking(dateStart, dateEnd, roomID)
+    res, err := models.HotelRoomDao.CreateHotelRoom(discription, price)
     if err != nil {
         return
     }
     w.Write([]byte(GetSuccessJSON(res)))
 }
 
-// DeleteBooking ...
-func DeleteBooking(w http.ResponseWriter, r *http.Request) {
+// DeleteHotelRoom deletes hotel_room by room_id and returns room_id for details
+func DeleteHotelRoom(w http.ResponseWriter, r *http.Request) {
     var err error
     defer func() {
         if err != nil {
@@ -50,17 +41,17 @@ func DeleteBooking(w http.ResponseWriter, r *http.Request) {
     }()
 
     vars := mux.Vars(r)
-    bookingID := vars["bookingID"]
+    hotelRoomID := vars["hotelRoomID"]
 
-    res, err := models.BookingDao.DeleteBooking(bookingID)
+    res, err := models.HotelRoomDao.DeleteHotelRoom(hotelRoomID)
     if err != nil {
         return
     }
     w.Write([]byte(GetSuccessJSON(res)))
 }
 
-// GetListOfBookingsForRoomID ...
-func GetListOfBookingsForRoomID(w http.ResponseWriter, r *http.Request) {
+// GetListHotelRooms returns list of hotel_room-s which are sorted by price/date_created
+func GetListHotelRooms(w http.ResponseWriter, r *http.Request) {
     var err error
     defer func() {
         if err != nil {
@@ -70,20 +61,19 @@ func GetListOfBookingsForRoomID(w http.ResponseWriter, r *http.Request) {
     }()
 
     vars := r.URL.Query()
-    roomID := vars.Get("room_id")
-    i, err := strconv.ParseUint(roomID, 10, 32)
+    orderByParam := vars.Get("order_by")
+    if orderByParam == "" {
+        orderByParam = "price"
+    }
+
+    listOfHotelRooms, err := models.HotelRoomDao.GetOrderedByParamHotelRooms(orderByParam)
     if err != nil {
         return
     }
 
-    listOfBookings, err := models.BookingDao.GetBookingsByRoomID(uint(i))
-    if err != nil {
-        return
-    }
-
-    answer := HTTPBookingResponse{
+    answer := HTTPHotelRoomResponse{
         Status:  "True",
-        Details: listOfBookings,
+        Details: listOfHotelRooms,
     }
 
     js, err := json.Marshal(answer)

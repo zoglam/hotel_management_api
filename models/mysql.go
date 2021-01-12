@@ -11,17 +11,17 @@ import (
 var DB *sql.DB
 
 // ConnectDataBase makes connect to database
-func ConnectDataBase(dsn string) {
+func ConnectDataBase(dsn string) error {
     database, err := sql.Open(`mysql`, dsn)
-
     if err != nil {
-        panic("Failed to connect to database!")
+        return err
     }
 
     DB = database
+    return database.Ping()
 }
 
 // CloseConnectionDataBase closes connection to database
-func CloseConnectionDataBase() {
-    DB.Close()
+func CloseConnectionDataBase() error {
+    return DB.Close()
 }
