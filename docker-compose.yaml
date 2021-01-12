@@ -11,7 +11,7 @@ services:
       mysql:
         condition: service_healthy
     volumes:
-      - ./config/config.json:/app/config.json
+      - ./config/config.json:/app/config/config.json
 
   mysql:
     image: mysql:5.7 
