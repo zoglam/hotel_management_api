@@ -61,16 +61,15 @@ func (h *hotelRoomDao) DeleteHotelRoom(roomID string) (string, error) {
 
 // GetOrderedByParamHotelRooms makes query to DB to get sorted hotel_room list
 func (h *hotelRoomDao) GetOrderedByParamHotelRooms(orderByParam string) ([]HotelRoom, error) {
-    println(orderByParam)
-    rows, err := DB.Query(`
+    query := `
         SELECT 
             room_id, 
             discription, 
             price, 
             DATE_FORMAT(date_created, "%Y-%m-%d") 
         FROM hotel_room
-        ORDER BY ?
-    `, orderByParam)
+        ORDER BY ` + fmt.Sprintf(`%s`, orderByParam)
+    rows, err := DB.Query(query)
     if err != nil {
         return nil, err
     }
