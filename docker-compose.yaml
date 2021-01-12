@@ -1,4 +1,4 @@
-version: "2.4"
+version: "2.3"
 services:
   web:
     build:
@@ -11,14 +11,14 @@ services:
       mysql:
         condition: service_healthy
     volumes:
-      - ./config.json:/app/config.json
+      - ./config/config.json:/app/config.json
 
   mysql:
     image: mysql:5.7 
     container_name: hotel_management_mysql
     command: mysqld --user=root
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./config/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - 3306:3306
     environment:
