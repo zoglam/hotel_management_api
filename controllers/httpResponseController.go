@@ -2,6 +2,7 @@ package controllers
 
 import (
     "fmt"
+    "strings"
 
     models "github.com/zoglam/hotel_management_api/models"
 )
@@ -21,7 +22,7 @@ type HTTPHotelRoomResponse struct {
 // GetErrorJSON prepares form for error message
 func GetErrorJSON(details string) string {
     errorMessage := "{\"status\":\"False\",\"details\":\"%s\"}"
-    return fmt.Sprintf(errorMessage, details)
+    return fmt.Sprintf(errorMessage, strings.ReplaceAll(details, `"`, `\"`))
 }
 
 // GetSuccessJSON prepares form for success message
